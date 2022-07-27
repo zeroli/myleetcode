@@ -41,22 +41,36 @@ std::vector<std::string> SplitBy(const std::string& str, const char d)
 TreeNode* BuildTree(const std::string& input)
 {
     std::string str(input);
-    str.erase(0, 1);
-    str.pop_back();
+    if (str.front() == '[') str.erase(0, 1);
+    if (str.back() == ']') str.pop_back();
     auto strs = SplitBy(str, ',');
-    std::map<int, TreeNode*> map;
 
-    for (int i = strs.size() - 1; i >= 0; i--) {
-        TreeNode* node = (strs[i] == "null") ? nullptr : new TreeNode(atoi(strs[i].c_str()));
-        map[i] = node;
-        if (node) {
-            TreeNode* left = map[i * 2 + 1];
-            TreeNode* right = map[i * 2 + 2];
-            node->left = left;
-            node->right = right;
+    auto root = new TreeNode(std::atoi(strs[0].c_str()));
+    std::queue<TreeNode*> queue;
+    queue.push(root);
+    int i = 0;
+    while (!queue.empty() && i < strs.size()) {
+        auto cur = queue.front();
+        queue.pop();
+        if (i + 1 < strs.size()) {
+            auto&& lv = strs[i + 1];
+            if (lv != "null") {
+               auto l = new TreeNode(std::atoi(lv.c_str()));
+                queue.push(l);
+                cur->left = l;
+            }
         }
+        if (i + 2 < strs.size()) {
+            auto&& rv = strs[i + 2];
+            if (rv != "null") {
+                auto r = new TreeNode(std::atoi(rv.c_str()));
+                queue.push(r);
+                cur->right = r;
+            }
+        }
+        i += 2;
     }
-    return map[0];
+    return root;
 }
 
 #if 0  // python代码反序列化，支持[1,2,3,null,null,4,5,6,7]
