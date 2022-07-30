@@ -45,16 +45,16 @@ int main()
     {
         std::string str = "aabdec";
         std::string pat = "abc";
-        std::cout << ShortestWindowForSubstrInStr(str, pat) << "\n";
+        std::cout << ShortestWindowForSubstrInStr(str, pat) << "\n";  // abdec
     }
     {
         std::string str = "abdabca";
         std::string pat = "abc";
-        std::cout << ShortestWindowForSubstrInStr(str, pat) << "\n";
+        std::cout << ShortestWindowForSubstrInStr(str, pat) << "\n";  // abc
     }
     {
         std::string str = "adcad";
         std::string pat = "abc";
-        std::cout << ShortestWindowForSubstrInStr(str, pat) << "\n";
+        std::cout << ShortestWindowForSubstrInStr(str, pat) << "\n";  // ''
     }
 }

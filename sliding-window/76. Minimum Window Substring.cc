@@ -71,14 +71,14 @@ int main()
 {
     {
         std::string str1 = "ADOBECODEBANC", str2 = "ABC";
-        std::cout << MinWindowSubstr(str1, str2) << "\n";
+        std::cout << MinWindowSubstr(str1, str2) << "\n";  // BANC
     }
     {
         std::string str1 = "a", str2 = "a";
-        std::cout << MinWindowSubstr(str1, str2) << "\n";
+        std::cout << MinWindowSubstr(str1, str2) << "\n";  // a
     }
     {
         std::string str1 = "a", str2 = "aa";
-        std::cout << MinWindowSubstr(str1, str2) << "\n";
+        std::cout << MinWindowSubstr(str1, str2) << "\n";  // ''
     }
 }
