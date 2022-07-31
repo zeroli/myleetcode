@@ -12,13 +12,13 @@ Problem Notes
 
 int RemoveDuplicates(std::vector<int>& arr)
 {
-    int j = 0;
+    int j = 0;  // 每个unique元素
     for (int i = 0; i < arr.size(); i++) {
         if (arr[i] != arr[j]) {
             arr[++j] = arr[i];
         }
     }
-    arr = std::vector<int>(arr.begin(), arr.begin() + j + 1);
+    arr.resize(j + 1);
     return j + 1;
 }
 
