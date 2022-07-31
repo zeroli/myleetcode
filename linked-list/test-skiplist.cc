@@ -14,5 +14,7 @@ int main()
         std::cout << sl << "\n";
         assert(sl.First() == 1);
         assert(sl.Last() == 15);
+        sl.Delete(10);
+        std::cout << sl << "\n";
     }
 }

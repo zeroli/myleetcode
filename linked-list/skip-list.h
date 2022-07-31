@@ -126,6 +126,26 @@ struct SkipList {
         }
     }
 
+    bool Delete(int key)
+    {
+        Node* prev[kMaxHeight];
+        Node* x = FindGreaterEqual(key, prev);
+        assert(x == nullptr || x->Key() >= key);
+        if (x && x->Key() == key) {  // found it
+            // fixme: 怎么去更新max_height_？？？
+            for (int i = 0; i < CurMaxHeight(); i++) {
+                Node* y = prev[i]->Next(i);
+                if (y && y->Key() == key) {
+                    prev[i]->SetNext(i, y->Next(i));
+                }
+            }
+            DestroyNode(x);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     bool Contains(int key) const
     {
         Node* x = FindGreaterEqual(key, nullptr);
