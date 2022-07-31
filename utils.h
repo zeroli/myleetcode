@@ -15,6 +15,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <numeric>
+#include <cassert>
 
 using StrArray_t = std::vector<std::string>;
 using StrPath_t = std::vector<std::string>;

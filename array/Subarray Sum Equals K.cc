@@ -1,6 +1,6 @@
 #include "utils.h"
 
-int CoundSubarrEqualSum(const std::vector<int>& arr, int K)
+int CountSubarrEqualSum(const std::vector<int>& arr, int K)
 {
     // calculate prefix sum and store them in hash table for quick access
     std::unordered_map<int, int> counts;  // prefix sum => counts
@@ -24,6 +24,6 @@ int main()
     {
         std::vector<int> arr = { 10, 2, -2, -20, 10 };
         int sum = -10;
-        std::cout << CoundSubarrEqualSum(arr, sum) << "\n";  // 3
+        std::cout << CountSubarrEqualSum(arr, sum) << "\n";  // 3
     }
 }
