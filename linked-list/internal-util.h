@@ -1,5 +1,5 @@
-#ifndef SLOW_FASTER_INTERNAL_UTIL_H_
-#define SLOW_FASTER_INTERNAL_UTIL_H_
+#ifndef LINKED_LIST_INTERNAL_UTIL_H_
+#define LINKED_LIST_INTERNAL_UTIL_H_
 
 #include <cassert>
 #include <string>
@@ -55,13 +55,30 @@ Node* ReverseList(Node* beg, Node* end = nullptr)
     return prev;
 }
 
-Node* FindMiddle(Node* head)
+Node* FindMiddle(Node* head, Node* end = nullptr)
 {
     assert(head);
     Node* fast = head, *slow = head;
-    while (fast && fast->next) {
+    // 对于奇数区间[head, end), slow将会是中间的那一个
+    // 对于偶数区间[head, end), slow将会是n/2 + 1的那一个
+    while (fast != end && fast->next != end) {
         fast = fast->next->next;
         slow = slow->next;
+    }
+    return slow;
+}
+
+Node* FindMiddle2(Node* head, Node* end = nullptr)
+{
+    assert(head);
+    Node* fast = head, *slow = head;
+    // 对于奇数区间[head, end), slow将会是中间的那一个
+    // 对于偶数区间[head, end), slow将会是n/2的那一个
+    while (fast != end && fast->next != end) {
+        fast = fast->next->next;
+        if (fast) {
+            slow = slow->next;
+        }
     }
     return slow;
 }
@@ -73,9 +90,9 @@ void DestroyList(Node* head)
     delete head;
 }
 
-void PrintList(Node* head, std::ostream& out)
+void PrintList(std::ostream& out, Node* head, Node* end = nullptr)
 {
-    while (head) {
+    while (head && head != end) {
         out << head->data << " -> ";
         head = head->next;
     }
@@ -84,7 +101,7 @@ void PrintList(Node* head, std::ostream& out)
 
 std::ostream& operator <<(std::ostream& outstr, Node* head)
 {
-    PrintList(head, outstr);
+    PrintList(outstr, head, nullptr);
     return outstr;
 }
 
@@ -108,4 +125,4 @@ Node* BuildList(const std::string& str)
     return dummy.next;
 }
 
-#endif  // SLOW_FASTER_INTERNAL_UTIL_H_
+#endif  // LINKED_LIST_INTERNAL_UTIL_H_

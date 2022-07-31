@@ -22,12 +22,14 @@ std::vector<std::string> SplitBy(const std::string& str, const char d)
             ic++;
             continue;
         }
-        if (std::isdigit(c)) {
-            int val = 0;
+        if (std::isdigit(c) || c == '-') {
+            int val = (c == '-') ? 0 : c - '0';
+            ic++;
             while (ic < str.size() && std::isdigit(str[ic])) {
                 val = 10 * val + str[ic] - '0';
                 ic++;
             }
+            val = (c == '-') ? -val : val;
             arr.push_back(std::to_string(val));
         } else {  // null
             arr.push_back("null");

@@ -1,5 +1,18 @@
 #include "utils.h"
 
+/*
+Given two strings S and T,
+return if they are equal when both are typed into empty text editors.
+#means a backspace character.
+
+Input: S = "ab##", T = "c#d#"
+Output: true
+
+Explanation: Both S and T become "".
+
+
+*/
+
 int GetNextValidCharIndex(const std::string& str, int index)
 {
     int ndeletes = 0;
@@ -43,19 +56,19 @@ int main()
 {
     {
         std::string str1="xy#z", str2="xzz#";
-        std::cout << std::boolalpha << BackspaceCompare(str1, str2) << "\n";
+        std::cout << std::boolalpha << BackspaceCompare(str1, str2) << "\n";  // true
     }
     {
         std::string str1="xy#z", str2="xyz#";
-        std::cout << std::boolalpha << BackspaceCompare(str1, str2) << "\n";
+        std::cout << std::boolalpha << BackspaceCompare(str1, str2) << "\n";  // false
     }
     {
         std::string str1="xp#", str2="xyz##";
-        std::cout << std::boolalpha << BackspaceCompare(str1, str2) << "\n";
+        std::cout << std::boolalpha << BackspaceCompare(str1, str2) << "\n";  // true
     }
     {
         std::string str1="xywrrmp", str2="xywrrmu#p";
-        std::cout << std::boolalpha << BackspaceCompare(str1, str2) << "\n";
+        std::cout << std::boolalpha << BackspaceCompare(str1, str2) << "\n";  // true
     }
 
 }

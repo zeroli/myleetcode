@@ -1,5 +1,5 @@
 #include "utils.h"
-#include "internal-util.h"
+#include "linked-list/internal-util.h"
 
 int GetNextIndex(const std::vector<int>& arr, bool isForward, int curIndex)
 {
@@ -42,15 +42,15 @@ int main()
 {
     {
         std::vector<int> arr = { 1, 2, -1, 2, 2 };
-        std::cout << std::boolalpha << ContainsLoop(arr) << "\n";
+        std::cout << std::boolalpha << ContainsLoop(arr) << "\n";  // true
     }
     {
         std::vector<int> arr = { 2, 2, -1, 2 };
-        std::cout << std::boolalpha << ContainsLoop(arr) << "\n";
+        std::cout << std::boolalpha << ContainsLoop(arr) << "\n";  // true
     }
     {
         std::vector<int> arr = { 2, 1, -1, -2 };
-        std::cout << std::boolalpha << ContainsLoop(arr) << "\n";
+        std::cout << std::boolalpha << ContainsLoop(arr) << "\n";  // false
     }
 
 }
