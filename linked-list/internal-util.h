@@ -96,7 +96,7 @@ void PrintList(std::ostream& out, Node* head, Node* end = nullptr)
         out << head->data << " -> ";
         head = head->next;
     }
-    out << "null\n";
+    out << "null";
 }
 
 std::ostream& operator <<(std::ostream& outstr, Node* head)
@@ -110,12 +110,15 @@ Node* BuildList(const std::string& str)
     Node dummy;
     Node** pp = &dummy.next;
     for (int i = 0; i < str.size(); ) {
-        if (std::isdigit(str[i])) {
-            int val = 0;
+        auto c = str[i];
+        if (std::isdigit(c) || c == '-') {
+            int val = c == '-' ? 0 : (c - '0');
+            i++;
             while (i < str.size() && std::isdigit(str[i])) {
                 val = 10 * val + str[i] - '0';
                 i++;
             }
+            val = c == '-' ? -val : val;
             *pp = new Node(val);
             pp = &((*pp)->next);
         } else {
