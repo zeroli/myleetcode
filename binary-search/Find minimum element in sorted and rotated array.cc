@@ -12,6 +12,14 @@ You have a sorted and rotated array arr[] of size n
 int MinAtIndexNoDup(const std::vector<int>& arr)
 {
     int left = 0, right = arr.size() - 1;
+    // right 初始化为n-1, 是因为下面要用right对应的数组元素跟mid数组元素进行比较。
+    // 采用left < right, 而不是left <= right，是因为下面代码中要right有可能不会变化，
+    // 这样则需要left < right，否则会有可能死循环，因为一旦left=right时，再次进入
+    // 循环，mid=left，right=mid (因为arr[mid]=arr[right])，left仍然等于right
+    // 所以这里不能用<=进行判断
+    // 类似的，如果while循环里面有right不发生变化，condition一定是用<，而不是<=
+    // 同时，循环代码中，不能有left = mid出现，因为一旦mid=left(只有2个元素left+1=right),
+    // left/right就不会发生变化，代码将进入死循环。
     while (left < right) { // NOTE this !!! "<"
         if (arr[left] < arr[right]) {
             break;

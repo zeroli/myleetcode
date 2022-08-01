@@ -1,8 +1,12 @@
 #include "utils.h"
 
+// 返回索引
 int TargetAtIndexNoDup(const std::vector<int>& arr, int target)
 {
     int left = 0, right = arr.size() - 1;
+    //  用right=n-1，是因为下面代码有用`right`作为索引获取元素
+    // 用<= 作为判断条件是因为下面总是会更改left/right，最终会导致left/right相等，
+    // 直至left > right，退出循环
     while (left <= right) {
         int mid = left + (right - left) / 2;
         if (arr[mid] == target) {
