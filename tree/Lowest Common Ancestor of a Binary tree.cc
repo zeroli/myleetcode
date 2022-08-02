@@ -1,5 +1,5 @@
 #include "utils.h"
-#include "internal-util.h"
+#include "tree/internal-util.h"
 
 /*
 Given the root node of a binary tree,
