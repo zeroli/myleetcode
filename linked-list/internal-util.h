@@ -107,10 +107,17 @@ std::ostream& operator <<(std::ostream& outstr, Node* head)
 
 Node* BuildList(const std::string& str)
 {
+    int n = str.size();
     Node dummy;
     Node** pp = &dummy.next;
-    for (int i = 0; i < str.size(); ) {
+    for (int i = 0; i < n; ) {
         auto c = str[i];
+        if (c == '-') {
+            if (i + 1 < n && str[i+1] == '>') {
+                i += 2;
+                continue;
+            }
+        }
         if (std::isdigit(c) || c == '-') {
             int val = c == '-' ? 0 : (c - '0');
             i++;
