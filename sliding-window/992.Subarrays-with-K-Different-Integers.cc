@@ -36,38 +36,41 @@ int NumOfSubarr(const std::vector<int>& arr, int k)
     // [j, i]  => [j + prefix, i] (has unique k, cannot shrink any more)
     // shrink prefix times, so that res += prefix + 1
     std::map<int, int> freqs;
-    int j = 0;
+    int start = 0;
     int n = arr.size();
     int res = 0;
     int prefix = 0;
     for (int i = 0; i < n; i++) {
         freqs[arr[i]]++;
 
-        // continue loop until we have >k unique
-        // since if we stop at case that we have k unique, then following number
-        // may duplicate and don't contribute the more unique, we will miss count
+        // 窗口不平衡了，有>K个不同的数字
+        // 可以肯定当前数字是一个unique数字
         if (freqs.size() > k) {
-            // we know j is a unique, remove it, so that we have k unique after that.
-            if (--freqs[arr[j]] == 0) {
-                freqs.erase(arr[j]);
+            // 开始不断收缩窗口左边那些对当前窗口状态不影响的数字
+            // 当前窗口状态是>K个不同的数字
+            // 那些对窗口状态不影响的数字就是它们出现的频率很多
+            while (start < i && (freqs[arr[start]] > 1)) {
+                --freqs[arr[start]];
+                start++;
             }
-            j++;
+            // 直到发现一个数字，后面不再存在跟它重复
+            // 去除它，重新让窗口平衡
+            if (--freqs[arr[start]] == 0) {
+                freqs.erase(arr[start]);
+            }
+            start++;
+            // 开始进行prefix统计
             prefix = 0;
         }
-        // while loop condition is not freqs.size() == k!!!!
-
-        // we have window [j, i], satisfying condition unique# = k
-        // if j has more instances, safely remove it for prefix
-        // until we cannot move j forward any more
-        while (freqs[arr[j]] > 1) {
-            if (--freqs[arr[j]] == 0) {
-                freqs.erase(arr[j]);
-            }
-            prefix++;
-            j++;
-        }
-
+        // 窗口平衡了，做最后的统计
         if (freqs.size() == k) {
+            // 在窗口平衡的前提下，可以统计有多少数字可以去除
+            // 不会影响窗口平衡
+            while (start < i && (freqs[arr[start]] > 1)) {
+                --freqs[arr[start]];
+                start++;
+                prefix++;
+            }
             res += 1 + prefix;
         }
     }
