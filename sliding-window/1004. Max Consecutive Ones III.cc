@@ -33,6 +33,10 @@ Constraints:
 
 #include "utils.h"
 
+// 采用滑动窗口的方法
+// 遍历数组，遍历到0的个数超过k了，考虑收缩窗口左边
+// 没到k前，统计最大长度，因为其它都是1，
+// 小于k个数的0可以flip成1
 int Count(const std::vector<int>& arr, int k)
 {
     int j = 0;
@@ -42,14 +46,25 @@ int Count(const std::vector<int>& arr, int k)
         if (arr[i] == 0) {
             num0++;
         }
+        // 出现一个0，使得0的个数大于k了
         if (num0 > k) {
+            // 窗口左边为1，收缩，直到遇到0
             while (arr[j] == 1) {
                 j++;
             }
-            num0--;
+            num0--;  // 减少0的个数
+            j++;  // 收缩窗口左边
+        }
+    #if 0  // 一个更好理解的窗口收缩代码
+        // 统计窗口内的0的个数，超过不断收缩窗口左边
+        // 直到窗口内的0的个数再次达到平衡
+        while (num0 > k) {
+            if (arr[j] == 0) {
+                num0--;
+            }
             j++;
         }
-
+    #endif
         maxLen = std::max(maxLen, i - j + 1);
     }
     return maxLen;
