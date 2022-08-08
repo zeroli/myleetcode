@@ -19,7 +19,7 @@ Given array S = [4,4,4,4], return 4. They are:
 
 int Count(std::vector<int>& arr)
 {
-    // 满足三角形的边长要求其中2个数大于另外1个数
+    // 满足三角形的边长要求其中2个数之和大于另外1个数
     std::sort(arr.begin(), arr.end());
 
     int cnt = 0;

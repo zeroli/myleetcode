@@ -27,5 +27,5 @@ std::vector<std::pair<int,int>> FindSubarraySumK(const std::vector<int>& arr, in
 int main()
 {
     std::vector<int> arr = { 2, 3, 6, 4, 9, 0, 11 };
-    std::cout << FindSubarraySumK(arr, 9) << "\n";
+    std::cout << FindSubarraySumK(arr, 9) << "\n";  // (1,2), (4,4), (4,5)
 }

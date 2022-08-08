@@ -69,6 +69,9 @@ int NumOfSubarr(const std::vector<int>& arr, int k)
             while (start < i && (freqs[arr[start]] > 1)) {
                 --freqs[arr[start]];
                 start++;
+                // 注意这个prefix会一直保持在那里直到下次窗口不平衡
+                // 因为紧接着下次迭代，如果窗口仍然平衡，这次去除的数字
+                // 也不会影响下次窗口的平衡
                 prefix++;
             }
             res += 1 + prefix;
