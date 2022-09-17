@@ -2,7 +2,7 @@
 #include "linked-list/internal-util.h"
 
 // It is guaranteed that 1 ≤ m ≤ n ≤ length of linked list
-Node* ReverseList(Node* list, int m, int n)
+Node* ReverseList0(Node* list, int m, int n)
 {
     Node* pprev = nullptr;
     Node* beg = list;
@@ -33,6 +33,30 @@ Node* ReverseList(Node* list, int m, int n)
     beg->next = end;
 
     return rlist;
+}
+
+Node* ReverseList(Node* list, int m, int n)
+{
+    Node dummy;
+    dummy.next = list;
+    Node* pp, *cur = &dummy;
+    int i = 1;
+    while (i++ < m) {
+        cur = cur->next;
+    }
+    pp = cur;
+    cur = cur->next;
+    Node* prev = nullptr, *next = nullptr;
+    while (m++ <= n) {
+        next = cur->next;
+        cur->next = prev;
+        prev = cur;
+        cur = next;
+    }
+    pp->next->next = cur;
+    pp->next = prev;
+
+    return dummy.next;
 }
 
 int main()

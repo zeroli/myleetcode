@@ -33,7 +33,7 @@ Node* InsertNodeSorted(Node* head, Node* node)
     return dummy.next;
 }
 
-Node* InsertionSostList(Node* head)
+Node* InsertionSortList(Node* head)
 {
     if (!head) return nullptr;
 
@@ -53,14 +53,14 @@ int main()
 {
     {
         Node* head = BuildList("4->2->1->3");
-        std::cout << InsertionSostList(head) << "\n";  // 1->2->3->4
+        std::cout << InsertionSortList(head) << "\n";  // 1->2->3->4
     }
     {
         Node* head = BuildList("4->3->2->1");
-        std::cout << InsertionSostList(head) << "\n";  // 1->2->3->4
+        std::cout << InsertionSortList(head) << "\n";  // 1->2->3->4
     }
     {
         Node* head = BuildList("1->2->3->4");
-        std::cout << InsertionSostList(head) << "\n";  // 1->2->3->4
+        std::cout << InsertionSortList(head) << "\n";  // 1->2->3->4
     }
 }

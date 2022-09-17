@@ -5,22 +5,18 @@
 // 合并区间[list1, nullptr), [list2, nullptr)
 Node* Merge(Node* list1, Node* list2)
 {
-    std::cout << "list1: ";
-    PrintList(std::cout, list1);
-    std::cout << "list2: ";
-    PrintList(std::cout, list2);
+    std::cout << "list1: " << list1 << "\n";
+    std::cout << "list2: " << list2 << "\n";
 
     Node dummy;
     Node** next = &dummy.next;
     while (list1|| list2) {
         if (list1 == nullptr) {
             *next = list2;
-            next = &list2->next;
-            list2 = list2->next;
+            break;
         } else if (list2 == nullptr) {
             *next = list1;
-            next = &list1->next;
-            list1 = list1->next;
+            break;
         } else if (list1->data < list2->data) {
             *next = list1;
             next = &list1->next;
@@ -31,13 +27,12 @@ Node* Merge(Node* list1, Node* list2)
             list2 = list2->next;
         }
     }
-    *next = nullptr;
-    std::cout << "merged: ";
-    PrintList(std::cout, dummy.next);
+
+    std::cout << "merged: " << dummy.next << "\n";
     return dummy.next;
 }
 
-//  合并区间[list, nullptr)
+// 合并区间[list, nullptr)
 Node* MergeSort(Node* list)
 {
     if (list && list->next == nullptr) {

@@ -9,7 +9,7 @@ void Heapify(std::vector<int>& arr, int idx, int end)
     int left = idx * 2 + 1;
     int right = idx * 2 + 2;
     int largest = idx;  // 记录当前节点与左右子节点的最大者的index
-    if (left < end && arr[left] > arr[idx]) {
+    if (left < end && arr[left] > arr[largest]) {
         largest = left;
     }
     if (right < end && arr[right] > arr[largest]) {

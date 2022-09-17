@@ -10,7 +10,7 @@ int Partition(std::vector<int>& arr, int left, int right)
             std::swap(arr[i], arr[++j]);
         }
     }
-    // 此时arr[j]要小于arr[p]
+    // 此时arr[j]<=arr[p]
     std::swap(arr[p], arr[j]);
     return j;
 }

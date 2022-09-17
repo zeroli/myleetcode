@@ -26,7 +26,7 @@ int Partition2(std::vector<int>& arr, int left, int right)
             std::swap(arr[i], arr[j++]);
         }
     }
-    // 此时`j`对应的元素肯定大于pivot
+    // 此时`j`对应的元素肯定>=pivot (j=right时，=pivot)
     // 因为前面swap操作是在arr[i] <= pivot条件下执行的，之后j++了
     std::swap(arr[p], arr[j]);
     return j;
@@ -56,10 +56,11 @@ int Partition3(std::vector<int>& arr, int left, int right)
     // 此时`j`对应的位置arr[j] < arr[p]
     // 因为`j`是因为不满足第二个while而终止循环的
     std::swap(arr[left], arr[j]);
+    // 最后j两边的元素，左边<=，右边>=，都存在=arr[j]的元素
     return j;
 }
 
-// 从两端向中间遍历 (<算法设计于应用> 代码版本）
+// 从两端向中间遍历 (<算法设计于应用> 代码版本)
 int Partition4(std::vector<int>& arr, int left, int right)
 {
     int p = right;  // 以最后元素为pivot

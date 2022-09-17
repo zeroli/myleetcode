@@ -76,7 +76,7 @@ Node* FindMiddle2(Node* head, Node* end = nullptr)
     // 对于偶数区间[head, end), slow将会是n/2的那一个
     while (fast != end && fast->next != end) {
         fast = fast->next->next;
-        if (fast) {
+        if (fast != end) {
             slow = slow->next;
         }
     }

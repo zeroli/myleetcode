@@ -23,7 +23,6 @@ void Reverse(std::vector<int>& arr, int top, int bottom)
 
 std::vector<int> PancakeSort(std::vector<int>& arr)
 {
-    std::vector<int> ks;
     int n = arr.size();
 
     int bottom = n - 1;
@@ -32,14 +31,12 @@ std::vector<int> PancakeSort(std::vector<int>& arr)
         if (max != 0) {
             // reverse [0, max] to make max on top
             Reverse(arr, 0, max);
-            ks.push_back(max + 1);
         }
         // reverse [0, bottom] to make max go to bottom
         Reverse(arr, 0, bottom);
-        ks.push_back(bottom + 1);
         bottom--;
     }
-    return ks;
+    return arr;
 }
 
 int main()

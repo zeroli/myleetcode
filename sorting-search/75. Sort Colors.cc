@@ -25,20 +25,20 @@ std::vector<int> ColorSort(std::vector<int>& arr)
     int ir = 0, ib = arr.size();
     int iw = 0;
     // [0, ir)：RED
-    // [ir, iw): GREEN
-    // iw: 当前检查的元素
+    // [ir, iw): WHITE
+    // iw: 当前检查的元素 => ib
     // [ib, n): BLUE
     while (iw < ib) {
         if (arr[iw] == RED) {
             std::swap(arr[iw], arr[ir]);
             ir++;
             iw++;
-            // 这里需要iw++，因为我们知道交换回来的arr[iw]是GREEN
+            // 这里需要iw++，因为我们知道交换回来的arr[iw]是WHITE
         } else if (arr[iw] == BLUE) {
             --ib;
             std::swap(arr[iw], arr[ib]);
             // 这里不要iw++，因为交换回来的arr[iw]有可能是RED
-            // 下一轮还需要再次判断是否为RED还是GREEN
+            // 下一轮还需要再次判断是否为RED还是WHITE
         } else {
             iw++;
         }

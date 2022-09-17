@@ -29,13 +29,17 @@ void Merge(std::vector<int>& arr, int left, int mid, int right, std::vector<int>
             arr[p] = tmp[j++];
         } else if (j == right + 1) {
             arr[p] = tmp[i++];
-            // please note, this is for arr[p], not arr[i]/arr[j]
+            // 我们已经遍历到了j数组的末尾，故此时i对应元素都比j数组的元素要大
+            // 我们直接累计j数组的总的个数到i元素对应位置比它小的统计中
             counts[num2Index[arr[p]]] += (j - mid - 1);
         } else if (tmp[i] > tmp[j]) {
             arr[p] = tmp[j++];
         } else {
             arr[p] = tmp[i++];
-            // please note, this is for arr[p], not arr[i]/arr[j]
+            // tmp[i] < tmp[j]
+            // 对于tmp[i]来说，[mid+1, j)范围内的元素都小于tmp[i]
+            // 为啥？因为它们已经在tmp[i]之前放入了排序数组里面了，接下来的元素就是tmp[i]
+            // 故需要将(j-mid-1)元素个数累加到tmp[i]对应元素位置比它小的统计中
             counts[num2Index[arr[p]]] += (j - mid - 1);
         }
     }
