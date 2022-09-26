@@ -78,7 +78,7 @@ std::vector<int> MorrisInorderTraverse(TreeNode* root)
             // get the right-most node if left subtree of cur node
             // 根据当前prev前驱节点找到之前连接的cur节点
             // 因为之前cur->left其实并没有断开，一个环又兜回来了
-            // 这是下面的while-loop最终会发现prev->right=cur
+            // 这时下面的while-loop最终会发现prev->right=cur
             // 然后就会断开，处理当前节点cur，之后进入它的右边子树
             prev = cur->left;
             while (prev->right != nullptr && prev->right != cur) {
@@ -89,7 +89,7 @@ std::vector<int> MorrisInorderTraverse(TreeNode* root)
                 cur = cur->left;
             } else {
                 prev->right = nullptr;  // 断开之前连接的cur节点
-                res.push_back(cur->data);
+                res.push_back(cur->data);  // 第2次见到这个节点，处理
                 cur = cur->right;
             }
         }

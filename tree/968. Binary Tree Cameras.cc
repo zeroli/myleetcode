@@ -22,7 +22,7 @@ Explanation: At least two cameras are needed to monitor all nodes of the tree.
 // 每个节点有3中状态：
 enum {
     MONITORED = 1,  // 被子节点照亮了
-    UN_MONOTORED = 2,  // 没被子节点照亮
+    UN_MONITORED = 2,  // 没被子节点照亮
     CAMERA = 3  // 有camera安装
 };
 
@@ -30,12 +30,12 @@ enum {
 /*
     =>>>只要有一个子节点没被照亮，父节点得需要一个camera
        C            C            C
-     /  \          / \          / \
-    U   U        U  M      U  C
+      / \          / \          / \
+     U   U        U   M        U   C
     ===============
-      M            M          U
-     /  \           / \         / \
-    C   C        C  M     M  M
+      M            M           U
+     / \          / \         / \
+    C   C        C   M       M   M
     =>>>只要有一个子节点有camera，父节点就会被monitored
     =>>>子节点都为M，则父节点则是U
 
@@ -47,16 +47,18 @@ int BinaryTreeCamera_(TreeNode* root, int& total)
     if (!root) return 0;  // 返回0，告诉叶子节点un monitored
     int left = BinaryTreeCamera_(root->left, total);
     int right = BinaryTreeCamera_(root->right, total);
-    if (left == UN_MONOTORED || right == UN_MONOTORED) {
+    // 后序遍历，根据子节点返回的状态来决定当前节点的状态
+    if (left == UN_MONITORED || right == UN_MONITORED) {
         // 统计需要camera的个数
         total++;
-        return CAMERA;
+        return CAMERA;  // 子节点都是没monitored，这需要父节点来照亮
     }
+    // 子节点任何一个有camera，则当前节点就被monitored了
     if (left == CAMERA || right == CAMERA) {
         return MONITORED;
     }
     // 子节点都是M，当前节点就是un monitored
-    return UN_MONOTORED;
+    return UN_MONITORED;
 }
 
 // 返回整棵树至少需要多少camera
@@ -64,7 +66,7 @@ int BinaryTreeCamera(TreeNode* root)
 {
     int total = 0;
     int ret = BinaryTreeCamera_(root, total);
-    if (ret == UN_MONOTORED)
+    if (ret == UN_MONITORED)
         total++;
     return total;
 }

@@ -14,10 +14,31 @@ Problem Note
 TreeNode* pprev = nullptr;
 TreeNode* prev = nullptr;
 
-TreeNode* wrong1 = nullptr;
-TreeNode* wrong2 = nullptr;
+TreeNode* first = nullptr;
+TreeNode* middle = nullptr;
+TreeNode* last = nullptr;
 
-// find wrong1/wrong2 when traversing
+/*
+case 1:
+ 
+          %
+    *  %        
+    %  *
+ %
+ >> 相邻两个%节点交换变成了*
+ >> 用first/middle来跟踪
+case 2:
+           %
+   *     %
+       % 
+     %
+   %     *  
+ %
+ >> 非相邻两个%节点变成了*
+ >> 出现2个突然下降，一次是* => %, 一次是% => *
+ >> 用first/last来跟踪
+*/
+
 void TraverseBSTree(TreeNode* root)
 {
     if (!root) return;
@@ -26,16 +47,16 @@ void TraverseBSTree(TreeNode* root)
     // inorder traversing
     if (prev) {
         if (root->data < prev->data) {
-            // any sudden smaller, think it as wrong2
-            wrong2 = root;
-            // wrong1/wrong2 might be near
-            if (pprev && pprev->data < prev->data) {
-                wrong1 = prev;
+            // 出现第一次突然下降？？
+	    if (first == nullptr) {
+                first = prev;
+                middle = root;
+            } else {  // 出现第二次突然下降
+                last = root;
             }
         }
     }
 
-    pprev = prev;
     prev = root;
     TraverseBSTree(root->right);
 }
@@ -44,8 +65,10 @@ TreeNode* RecoverBSTree(TreeNode* root)
 {
     TraverseBSTree(root);
 
-    if (wrong1 && wrong2) {
-        std::swap(wrong1->data, wrong2->data);
+    if (first && last) {  // case2
+        std::swap(first->data, last->data);
+    } else if (first && middle) {  // case 1
+        std::swap(first->data, middle->data);
     }
 
     return root;

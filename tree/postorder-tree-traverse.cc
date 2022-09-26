@@ -77,6 +77,51 @@ std::vector<int> PostorderTraverseIterative(TreeNode* root)
     return res;
 }
 
+// 另外一个非递归的方式实现post-order traversal
+std::vector<int> PostorderTraverseIterative1(TreeNode* root)
+{
+    std::vector<int> res;
+    std::stack<TreeNode*> stk;
+    stk.push(root);
+    // 模拟post recursive的方式，采用栈
+    TreeNode* prev = nullptr;
+
+    /*
+    void traverse(root, prev = nullptr) {
+      if (root == null) return;
+      traverse(root->left, root);
+      traverse(root->right, root);
+      print(root->data);
+    }
+    */
+    while (!stk.empty()) {
+        TreeNode* cur = stk.top();
+        if (prev == nullptr || (prev->left == cur) || (prev->right == cur))
+        {
+            if (cur->left != nullptr) {  // 一直走左边
+                stk.push(cur->left);
+            } else if (cur->right != nullptr) {  // 一开始没有左树，走右边
+                stk.push(cur->right);
+            } else {  // 到达叶子节点
+                res.push_back(cur->data);
+                stk.pop();  // 栈退回一层
+            }
+        } else if (cur->left == prev) {  // 从左子树退出
+            if (cur->right != nullptr) {  // 右子树存在，走右边
+                stk.push(cur->right);
+            } else {  // 不存在右子树，当前节点结束遍历
+                res.push_back(cur->data);
+                stk.pop();  // 栈退回一层
+            }
+        } else {  // 从右子树退出
+            res.push_back(cur->data);
+            stk.pop();
+        }
+        prev = cur;
+    }
+    return res;
+}
+
 int main()
 {
     {
@@ -85,5 +130,6 @@ int main()
         std::cout << PostorderTraverse(root) << "\n";  // 2,6,4,5,3,1
         std::cout << PostorderTraverseIterative(root) << "\n";  // 2,6,4,5,3,1
         std::cout << MorrisPostorder(root) << "\n";  // 2,6,4,5,3,1
+        std::cout << PostorderTraverseIterative1(root) << "\n";  // 2,6,4,5,3,1
     }
 }

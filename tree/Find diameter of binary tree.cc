@@ -3,18 +3,22 @@
 
 int FindLongestPath(TreeNode* root, int& diameter)
 {
-    if (!root) return 0;
+    if (!root) return -1;
+    if (root->left == nullptr && root->right == nullptr) {
+        return 0;
+    }
     int left = FindLongestPath(root->left, diameter);
     int right = FindLongestPath(root->right, diameter);
-    int len = 1;  // we're calculting the path length, not node#
-    if (left > 0) {
-        len += left;  // add longest path on left
+    int len = 0;
+    if (left >= 0) {
+        len += 1 + left;  // add longest path on left
     }
-    if (right > 0) {
-        len += right;   // add longest path on right
+    if (right >= 0) {
+        len += 1 + right;   // add longest path on right
     }
     diameter = std::max(diameter, len);
     int longer = std::max(left, right);
+    // longer=0, 代表子节点是叶子节点
     return longer > 0 ? longer + 1 : 1;
 }
 
@@ -23,8 +27,7 @@ int FindDiameter(TreeNode* root)
     if (!root) return 0;
     int diameter = 0;
     FindLongestPath(root, diameter);
-    // we're counting the node#, so subtract one to get path (edge#)
-    return diameter - 1;
+    return diameter;
 }
 
 int main()
