@@ -45,7 +45,7 @@ Node* ReverseList(Node* head)
 // reverse list in range [beg, end)
 Node* ReverseList(Node* beg, Node* end = nullptr)
 {
-    Node* cur = beg, *prev = nullptr, *next = nullptr;
+    Node* cur = beg, *prev = end, *next = nullptr;
     while (cur != end) {
         next = cur->next;
         cur->next = prev;

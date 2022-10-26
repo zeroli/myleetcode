@@ -4,6 +4,7 @@
 #include <cassert>
 #include <queue>
 
+// google面试题, 2022年
 using Grid_t = std::vector<std::string>;
 #define B 'B'  // water
 #define G 'G'  // island
