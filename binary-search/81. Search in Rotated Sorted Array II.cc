@@ -16,6 +16,7 @@ int SearchTarget(const std::vector<int>& arr, int target)
         }
 
         // 下面开始3个判断条件是过滤掉重复元素存在的情况
+        // 剩下的判断就是跟没有重复元素的处理一样了
         if (arr[left] == arr[mid] && arr[mid] == arr[right]) {
             left++;  // no one is equal to target
             right--;
@@ -23,19 +24,19 @@ int SearchTarget(const std::vector<int>& arr, int target)
             left = mid + 1;  // remove half of it, since [left... mid-1] not equal to target
         } else if (arr[right] == arr[mid]) {
             right = mid - 1;  // remove half of it, since [mid+1... right] not equal to target
-        } else if (arr[mid] < arr[right]) {  // right part is ascending order
-            if (arr[mid] < target && target <= arr[right]) {  // in range
-                left = mid + 1;
-            } else {
-                right = mid - 1;
-            }
-        } else {  // left part is ascending order
+        } else if (arr[mid] > arr[right]) {  // left part is ascending order
             if (arr[left] <= target && target < arr[mid]) {  // in range
                 right = mid - 1;
             } else {
                 left = mid + 1;
             }
-        }
+        } else {  // right part is ascending order
+            if (arr[mid] < target && target <= arr[right]) {  // in range
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        } else
     }
     return -1;
 }
