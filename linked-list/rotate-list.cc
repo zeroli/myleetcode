@@ -81,7 +81,7 @@ Node* RotateList0(Node* head, int k)
 #endif
 }
 
-Node* RotateList(Node* head, int k)
+Node* RotateList1(Node* head, int k)
 {
     if (!head) {
         return nullptr;
@@ -122,31 +122,66 @@ Node* RotateList(Node* head, int k)
     return newhead;
 }
 
+// 一个新的方法
+Node* RotateList(Node* head, int k)
+{
+    // 遍历链表获取链表的长度，同时遍历到最后一个节点
+    // 计算前面的len-k%len的长度d
+    // 将最后一个节点链接到头节点，形成一个环
+    // 从头遍历前面的部分d的长度，它的下一个节点就是断开节点，也是新的头节点
+    if (head == nullptr) return nullptr;
+
+    int n = 1;
+    Node* p = head;  // p将指向最后一个非空节点
+    while (p->next) {
+        p = p->next;
+        n++;
+    }
+    int d = n - k % n;
+    if (d == n) {
+        return head;  // 不需要旋转了
+    }
+    // 首尾相连，形成环
+    p->next = head;
+    while (d--) {
+        p = p->next;
+    }
+    // p的下一个节点就是断开节点，也是新节点
+    head = p->next;
+    p->next = nullptr;
+    return head;
+}
+
 int main()
 {
     {
         Node* head = BuildList("1,2,3,4,5");
         std::cout << "input list: " << head << "\n";
-        std::cout << RotateList(head, 2) << "\n";  // 4 -> 5 -> 1 -> 2 -> 3 -> null
+        std::cout << (head = RotateList(head, 2)) << "\n";  // 4 -> 5 -> 1 -> 2 -> 3 -> null
+        DestroyList(head);
     }
     {
         Node* head = BuildList("1,2,3,4,5");
         std::cout << "input list: " << head << "\n";
-        std::cout << RotateList(head, 10) << "\n";  // 1 -> 2 -> 3 -> 4 -> 5 -> null
+        std::cout << (head = RotateList(head, 10)) << "\n";  // 1 -> 2 -> 3 -> 4 -> 5 -> null
+        DestroyList(head);
     }
     {
         Node* head = BuildList("1,2,3,4,5");
         std::cout << "input list: " << head << "\n";
-        std::cout << RotateList(head, 3) << "\n";  // 3 -> 4 -> 5 -> 1 -> 2 -> null
+        std::cout << (head = RotateList(head, 3)) << "\n";  // 3 -> 4 -> 5 -> 1 -> 2 -> null
+        DestroyList(head);
     }
     {
         Node* head = BuildList("1,2,3,4,5");
         std::cout << "input list: " << head << "\n";
-        std::cout << RotateList(head, 11) << "\n";  // 5 -> 1 -> 2 -> 3 -> 4 -> null
+        std::cout << (head = RotateList(head, 11)) << "\n";  // 5 -> 1 -> 2 -> 3 -> 4 -> null
+        DestroyList(head);
     }
     {
         Node* head = BuildList("1");
         std::cout << "input list: " << head << "\n";
-        std::cout << RotateList(head, 11) << "\n";  // 1 -> null
+        std::cout << (head = RotateList(head, 11)) << "\n";  // 1 -> null
+        DestroyList(head);
     }
 }
