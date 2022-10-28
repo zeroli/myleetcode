@@ -33,6 +33,9 @@ bool CheckIntegerPalindrome(int x)
     return true;
 }
 
+// 还有一种方法就是求出输入数字的reversed number，然后进行比较
+// 但是这种方法有个问题就是数字有可能会溢出，reversed之后
+// 所以方法不可取
 int main()
 {
     {
