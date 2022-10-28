@@ -47,6 +47,18 @@ int LongestValidSubstr(const std::string& str)
     return maxLen;
 }
 
+// 下面这个算法的空间复杂度比较高，有些情况下，
+// 比如))))))))，我们需要存储所有的)))))括号，而且还有它的index
+// 上面的算法比较好，其实我们可以指存储遇到的最后一个右括号
+// 作为stk top，为底
+// 当我们遇到一个右括号时，有三种情况，在当前的栈中：
+// 1. 最原始的base (-1)
+// 2. 最原始的base，和一个左括号
+// 3. 之前的一个不能匹配的右括号
+// 如果stk不为空，则pop一个出去
+// 然后stk要么为空，要么留下base
+// 如果为空，则新的右括号无法匹配，push新的右括号作为底
+// 如果不为空，则计算更新最大长度，这个留下来的就是base
 int LongestValidLength(const std::string& s)
 {
     std::stack<std::pair<char, int>> stk;
@@ -104,5 +116,6 @@ int main()
         assert(4 == LongestValidLength(")()())"));
         assert(6 == LongestValidLength("()(()))))"));
         assert(6 == LongestValidLength("()())((()))))"));
+        assert(6 == LongestValidLength("(()())"));
     }
 }
