@@ -47,6 +47,35 @@ int LongestValidSubstr(const std::string& str)
     return maxLen;
 }
 
+int LongestValidLength(const std::string& s)
+{
+    std::stack<std::pair<char, int>> stk;
+    stk.push({')', -1});  // 只要不是'('就行
+    int len = 0;
+    for (int i = 0; i < s.size(); i++) {
+        char c = s[i];
+        if (c == '(') {
+            stk.push({c, i});
+        } else {
+            // stk肯定不为空，不用判断empty
+            // 因为我们已经push一个base了
+            if (stk.top().first == '(') {
+                stk.pop();
+                // pop完之后，stk肯定也不为空
+                // 因为'('肯定是我们之前push进去的
+                // 我们已经push了一个base了
+                len = std::max(len, i - stk.top().second);
+            } else {
+                // 如果当前stk top是非'('，则不能匹配当前的右括号)
+                // 代表我们开始一个片段了，不能连续了。
+                // 后面的将以这个')'为底
+                stk.push({c, i});
+            }
+        }
+    }
+    return len;
+}
+
 int main()
 {
     {
@@ -60,5 +89,20 @@ int main()
     {
         std::string str = "()(()))))";
         std::cout << LongestValidSubstr(str) << "\n";  // 6
+    }
+    {
+        assert(2 == LongestValidLength("()"));
+        assert(0 == LongestValidLength("))))"));
+        assert(0 == LongestValidLength("(((("));
+        assert(2 == LongestValidLength("(((()"));
+        assert(4 == LongestValidLength("()()"));
+        assert(4 == LongestValidLength("(())"));
+        assert(2 == LongestValidLength(")()"));
+        assert(4 == LongestValidLength("(()))"));
+        assert(4 == LongestValidLength(")(()))"));
+        assert(2 == LongestValidLength("((()"));
+        assert(4 == LongestValidLength(")()())"));
+        assert(6 == LongestValidLength("()(()))))"));
+        assert(6 == LongestValidLength("()())((()))))"));
     }
 }
