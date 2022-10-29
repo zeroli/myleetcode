@@ -46,6 +46,7 @@ public:
             maxq.pop_front();
         }
         std::cout << " Max: " << Max() << "\n";
+        return x;
     }
 
     int Max() const
