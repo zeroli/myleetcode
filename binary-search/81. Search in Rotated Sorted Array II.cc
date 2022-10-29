@@ -36,7 +36,7 @@ int SearchTarget(const std::vector<int>& arr, int target)
             } else {
                 right = mid - 1;
             }
-        } else
+        }
     }
     return -1;
 }
