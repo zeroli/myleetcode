@@ -33,7 +33,7 @@ int SearchTarget(const std::vector<int>& arr, int target)
         } else {  // right part is ascending order
             if (arr[mid] < target && target <= arr[right]) {  // in range
                 left = mid + 1;
-            } else {~
+            } else {
                 right = mid - 1;
             }
         } else
