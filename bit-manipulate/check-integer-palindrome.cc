@@ -20,6 +20,22 @@ bool CheckIntegerPalindrome(int x)
         移位就是代表log2操作
         那么对于10进制，我们可以调用log10来获取数字总位数，后面每次都除以100
     */
+    /*
+    计算ndigit，可以不用下面的C函数来计算
+    */
+    #if 0
+    int d = 1;
+    while (x / d >= 10) d *= 10;
+    // 比如9999 => d=1000
+    while (x > 0) {
+        if (x / d != x % 10) {
+            return false;
+        }
+        x %= d;  // 去掉最高位
+        x /= 10;  // 去掉最低位
+        d /= 100; // 一次去掉了2位d
+    }
+    #endif
     int ndigits = int(std::floor(std::log10(x))) + 1;
     int msb = int(std::pow(10, ndigits-1));
     for (int i = 0; i < ndigits/2; i++) {
