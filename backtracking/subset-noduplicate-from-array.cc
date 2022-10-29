@@ -37,6 +37,7 @@ std::vector<std::vector<int>> AllSubsets(const std::vector<int>& arr0)
 
     std::vector<Result_t> results;
     Result_t result;
+    results.push_back(result);  // 空的子集合也要考虑在内
     ChooseHelper(arr, 0, result, results);
     return results;
 }
