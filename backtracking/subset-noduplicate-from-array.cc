@@ -13,7 +13,9 @@
 */
 #include "utils.h"
 
-// 这题与backtracking\Print all subset.cc，题目一样
+// 这题与backtracking\Print all subset.cc，题目类似
+// 那个题目没有要求输出子集需要排序，
+// 所以就不需要预先对数组进行排序
 using Result_t = std::vector<int>;
 void ChooseHelper(const std::vector<int>& arr, int startIdx, Result_t result, std::vector<Result_t>& results)
 {
