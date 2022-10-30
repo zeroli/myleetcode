@@ -25,14 +25,22 @@ int DecodeWays(const std::string& str)
     dp[1] = 1;  //  长度为1的字符串解码为1
     for (int i = 2; i <= n; i++) {
         // str[i-1]为长度为i的字符串的最后字符
+        // 当前字符不是‘0’，可以单独解码
         if (str[i - 1] != '0') {  // 自己单独解码
             dp[i] += dp[i-1];
         }
+        // 前面字符不是‘0’，也可以组合解码，不过要看下是否<=26
         if (str[i - 2] != '0') {  // 与前面字符组合解码
+        #if 1
+            if (str[i - 2] == '1' or (str[i - 2] == '2' && str[i - 1] <= '6')) {
+                dp[i] += dp[i-2];
+            }
+        #else
             int x = (str[i - 2] - '0') * 10 + (str[i - 1] - '0');
             if (x <= 26) {
                 dp[i] += dp[i-2];
             }
+        #endif
         }
         if (dp[i] == 0) {  // 无法解码，终止
             return 0;
