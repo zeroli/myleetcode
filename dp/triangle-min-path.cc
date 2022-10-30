@@ -26,7 +26,7 @@ where n is the total number of rows in the triangle
 定义dp{i}{j}为第i行第j列节点时，从下到上遍历最小累加和。
 它可以从下面两个节点来变换过来: dp{i+1}{j}, dp{i+1}{j+1}，取最小值
 dp{i}{j} = min(dp{i+1}{j}, dp{i+1}{j+1}) + tri{i}{j}
-i/j，从m-1/n-1开始遍历，也就是最后一行，最后一列，遍历到(0, 0)
+i/j，从m-1/0开始遍历，也就是最后一行，第一列，遍历到(0, 0)
 
     {i, j}
      /|\  \
@@ -41,8 +41,9 @@ int MinPathTopDown0(const Array2D_t<int>& tri)
     for (int i = 0; i < n; i++) {
         dp[m-1][i] = tri[m-1][i];
     }
+    // 从下到上，从左到右
     for (int i = m-2; i >= 0; i--) {
-        for (int j = i; j >= 0; j--) {  // 注意，j从i开始，斜对角线处
+        for (int j = 0; j <= i; j++) {
             dp[i][j] = std::min(dp[i+1][j], dp[i+1][j+1]) + tri[i][j];
         }
     }
@@ -57,20 +58,12 @@ int MinPathTopDown(const Array2D_t<int>& tri)
     for (int i = 0; i < n; i++) {
         dp[i] = tri[m-1][i];
     }
+    // 从下到上，从左到右
     for (int i = m-2; i >= 0; i--) {
-        int tmp1 = dp[i+1];
-        int tmp2 = 0;
-        for (int j = i; j >= 0; j--) {  // 注意，j从i开始，斜对角线处
-            // 不能直接overwrite dp[j]，因为它下一轮迭代需要它的原始值
-            // 所需要保存到tmp变量中。
-            // 在下一轮迭代用完之后，那时候需要将tmp值写到那里，
-            // 注意下一轮迭代时，索引是j+1
-            // dp[j] = std::min(dp[j], dp[j+1]) + tri[i][j];
-            tmp2 = std::min(dp[j], dp[j+1]) + tri[i][j];
-            dp[j+1] = tmp1;
-            tmp1 = tmp2;  // 保存到tmp1中，下一轮迭代后会更新dp值
+        for (int j = 0; j <= i; j++) {
+            // 下一轮遍历不需要dp[j]了，可以直接覆写
+            dp[j] = std::min(dp[j], dp[j+1]) + tri[i][j];
         }
-        dp[0] = tmp1;
     }
     return dp[0];
 }
