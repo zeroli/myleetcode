@@ -48,7 +48,19 @@ bool WordBreakDP(const std::string& word, const std::set<std::string>& wordDict)
     std::vector<bool> dp(n + 1);
     dp[0] = true;
 
-    // dp[i] = dp[j] && str[j+1 ... i) in wordDict, for any j in range [0, i)
+    /*
+    当我们拿到一个字符串，要判断它是否可以被break一些单词时，
+    我们应该能想到它的子问题：
+    一个字符串，最后一个字符，如果前面部分的字符串可以被break，
+    而且同时最后一个字符也是一个单词，那么整个字符串就可以break，
+    如果最后一个字符不是单词，那么最后两个单词呢？
+    所以整个字符串就被划分了2个部分：
+    1. 已知前面一部分字符串已经确定可以被break；
+    2. 现在要判断后面一部分字符串作为整体，是否是一个单词
+    如果同时满足，那么整个字符串就可以break
+    对于这个过程，就要涉及到遍历
+    */
+    // dp[i] = dp[j] && str[j ... i) in wordDict, for any j in range [0, i)
     for (int i = 1; i <= n; i++) {
         // solve dp[i] ??
         for (int j = 0; j < i; j++) {
@@ -68,21 +80,21 @@ bool WordBreakDP(const std::string& word, const std::set<std::string>& wordDict)
 int main()
 {
     {
-        std::string word = "AfterAcademy";
-        std::set<std::string> wordDict = { "After", "Academy" };
-        std::cout << std::boolalpha << WordBreak(word, wordDict) << "\n";  // true
-        std::cout << std::boolalpha << WordBreakDP(word, wordDict) << "\n";
+        std::string s = "AfterAcademy";
+        std::set<std::string> dict = { "After", "Academy" };
+        std::cout << std::boolalpha << WordBreak(s, dict) << "\n";  // true
+        std::cout << std::boolalpha << WordBreakDP(s, dict) << "\n";
     }
     {
-        std::string word = "HardThingAboutHardThings";
-        std::set<std::string> wordDict = { "Hard", "Things", "Thing", "About" };
-        std::cout << std::boolalpha << WordBreak(word, wordDict) << "\n";  // true
-        std::cout << std::boolalpha << WordBreakDP(word, wordDict) << "\n";
+        std::string s = "HardThingAboutHardThings";
+        std::set<std::string> dict = { "Hard", "Things", "Thing", "About" };
+        std::cout << std::boolalpha << WordBreak(s, dict) << "\n";  // true
+        std::cout << std::boolalpha << WordBreakDP(s, dict) << "\n";
     }
     {
-        std::string word = "catsandog";
-        std::set<std::string> wordDict = { "cats", "dog", "sand", "and", "cat" };
-        std::cout << std::boolalpha << WordBreak(word, wordDict) << "\n";  // false
-        std::cout << std::boolalpha << WordBreakDP(word, wordDict) << "\n";
+        std::string s = "catsandog";
+        std::set<std::string> dict = { "cats", "dog", "sand", "and", "cat" };
+        std::cout << std::boolalpha << WordBreak(s, dict) << "\n";  // false
+        std::cout << std::boolalpha << WordBreakDP(s, dict) << "\n";
     }
 }
