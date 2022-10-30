@@ -11,18 +11,18 @@ Problem Note
 */
 
 struct Indexes {
-    int index1, index2, index3;
-
+    int index1, index2;
+    // index3 = index1 + index2
     friend std::ostream& operator<<(std::ostream& outstr, const Indexes& indexes)
     {
         return outstr << "(" << indexes.index1
-            << "," << indexes.index2 << "," << indexes.index3 << ")";
+            << "," << indexes.index2 << ")";
     }
     friend bool operator <(const Indexes& d1, const Indexes& d2)
     {
         if (d1.index1 != d2.index1) return d1.index1 < d2.index1;
         if (d1.index2 != d2.index2) return d1.index2 < d2.index2;
-        return d1.index3 < d2.index3;
+        return false;
     }
 };
 using Memo_t = std::map<Indexes, bool>;
@@ -32,8 +32,8 @@ bool Interleave(const std::string& str1, int index1,
             const std::string& str3, int index3,
             Memo_t& memo)
 {
-    if (memo.find({index1, index2, index3}) != memo.end()) {
-        return memo[{index1, index2, index3}];
+    if (memo.find({index1, index2}) != memo.end()) {
+        return memo[{index1, index2}];
     }
     // base case
     if (index3 == str3.size()) {
@@ -45,15 +45,22 @@ bool Interleave(const std::string& str1, int index1,
 
     auto c3 = str3[index3];
 
+    // 有n1+n2格子，每个格子从str1或者str2中选一个当前字符进行填充
     bool ret = false;
-    if (!ret && index1 < str1.size() && c3 == str1[index1]) {  // use c1 from str1
-        ret = ret || Interleave(str1, index1 + 1, str2, index2, str3, index3 + 1, memo);
+    if (index1 < str1.size() && c3 == str1[index1]) {  // use c1 from str1
+        if (Interleave(str1, index1 + 1, str2, index2, str3, index3 + 1, memo)) {
+            memo[{index1, index2}] = true;
+            return true;
+        }
     }
-    if (!ret && index2 < str2.size() && c3 == str2[index2]) {  // use c2 from str2
-        ret = ret || Interleave(str1, index1, str2, index2 + 1, str3, index3 + 1, memo);
+    if (index2 < str2.size() && c3 == str2[index2]) {  // use c2 from str2
+        if (Interleave(str1, index1, str2, index2 + 1, str3, index3 + 1, memo)) {
+            memo[{index1, index2}] = true;
+            return true;
+        }
     }
-    memo[{index1, index2, index3}] = ret;
-    std::cout << "memo: " << memo << "\n";
+    memo[{index1, index2}] = false;
+    //std::cout << "memo: " << memo << "\n";
     return ret;
 }
 
@@ -69,20 +76,30 @@ bool Interleave(const std::string& str1, const std::string& str2, const std::str
 // 动态规划算法，迭代
 class Solution {
 public:
-    bool isInterleave(const string& s1, const string& s2, const string& s3) {
-        if (s3.length() != s1.length() + s2.length())
+    bool isInterleave(const std::string& s1, const std::string& s2, const std::string& s3) {
+        int n1 = s1.size(), n2 = s2.size(), n3 = s3.size();
+        if (n3 != n1 + n2) {
             return false;
-        std::vector<std::vector<bool>> f(s1.length() + 1,
-                        std::vector<bool>(s2.length() + 1, true));
-        for (size_t i = 1; i <= s1.length(); ++i)
-            f[i][0] = f[i - 1][0] && s1[i - 1] == s3[i - 1];
-        for (size_t i = 1; i <= s2.length(); ++i)
-            f[0][i] = f[0][i - 1] && s2[i - 1] == s3[i - 1];
-        for (size_t i = 1; i <= s1.length(); ++i)
-            for (size_t j = 1; j <= s2.length(); ++j)
-                f[i][j] = (s1[i - 1] == s3[i + j - 1] && f[i - 1][j])
-                                || (s2[j - 1] == s3[i + j - 1] && f[i][j - 1]);
-        return f[s1.length()][s2.length()];
+        }
+
+        // 定义dp[i][j]为长度为i的s1，和长度为j的s2，
+        // 交叉形成的字符串是否等于s3中的i+j长度的前缀
+        std::vector<std::vector<bool>> dp(n1 + 1, std::vector<bool>(n2 + 1, true));
+
+        for (size_t i = 1; i <= n1; ++i) {
+            for (size_t j = 1; j <= n2; ++j) {
+                // 如果长度为i的s1的最后一个字符与s3最后一个字符相等
+                // 那么子问题就是s1前面i-1的字符串，与s2的整个字符串
+                if (s1[i - 1] == s3[i + j - 1]) {  // s1 = s3
+                    dp[i][j] = dp[i - 1][j];
+                } else if (s2[j-1] == s3[i + j - 1]) {  // s2 = s3
+                    dp[i][j] = dp[i][j - 1];
+                } else {  // 没有一个相等，这条路走不通
+                    dp[i][j] = false;
+                }
+            }
+        }
+        return dp[n1][n2];
     }
 };
 
@@ -93,11 +110,13 @@ int main()
         std::string str2 = "wyyzx";
         std::string str3 = "xxwyyzyzxz";
         std::cout << std::boolalpha << Interleave(str1, str2, str3) << "\n";  // true
+        std::cout << std::boolalpha << Solution().isInterleave(str1, str2, str3) << "\n";
     }
     {
         std::string str1 = "xxyzz";
         std::string str2 = "wyyzx";
         std::string str3 = "xxwyyyxzzz";
         std::cout << std::boolalpha << Interleave(str1, str2, str3) << "\n";  // false
+        std::cout << std::boolalpha << Solution().isInterleave(str1, str2, str3) << "\n";
     }
 }
