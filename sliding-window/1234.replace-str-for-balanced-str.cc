@@ -5,7 +5,8 @@ You are given a string s of length n containing only four kinds of characters: '
 
 A string is said to be balanced if each of its characters appears n / 4 times where n is the length of the string.
 
-Return the minimum length of the substring that can be replaced with any other string of the same length to make s balanced.
+Return the minimum length of the substring that
+can be replaced with any other string of the same length to make s balanced.
  If s is already balanced, return 0.
 
 Example 1:
@@ -51,9 +52,22 @@ int MinWindow(const std::string& s)
     int len = INT_MAX;
     for (int j = 0; j < n; j++) {
         freqs[s[j]]--;
+/*
+One pass the all frequency of "QWER".
+Then slide the windon in the string s.
 
+Imagine that we erase all character inside the window,
+as we can modyfy it whatever we want,
+and it will always increase the count outside the window.
+
+So we can make the whole string balanced,
+as long as max(count[Q],count[W],count[E],count[R]) <= n / 4.
+*/
         // we decrement one char's freq by erasing this char (to change it to any other)
         // then it might trigger balanced string (someone less than k, could take this increment)
+        // 删除当前字符，影响到窗口属性了，维持窗口属性就是使整个字符串的外围freqs都<=k
+        // 窗口内没有字符对应的freq了
+        // 这时我们滑动窗口左边
         while (beg < n &&
             freqs['Q'] <= k && freqs['W'] <= k && freqs['E'] <= k && freqs['R'] <= k)
         {
