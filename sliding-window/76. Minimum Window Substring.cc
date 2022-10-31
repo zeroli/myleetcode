@@ -57,7 +57,8 @@ std::string MinWindowSubstr(const std::string& str1, const std::string& str2)
             // 去除最左边的字符，会重新要求字符匹配么，还是剩余窗口里面有多余的？
             int t = str1[start++];
             if (needs.count(t) > 0) {
-                if (++needs[t] > 0) {
+                // 之前那个字符都满足了，现在要去除它，就存在不满足了，match--
+                if (needs[t]++ == 0) {
                     match--;
                 }
             }

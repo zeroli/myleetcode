@@ -1,7 +1,8 @@
 #include "utils.h"
 
-// smallest window that contains all characters in substring
-// this window may contains chars no in substring
+// 这题目于sliding-window\76. Minimum Window Substring.cc，其实是一样的
+// smallest window that contains all characters in another string str2
+// this window may contains chars not in str2
 std::string ShortestWindowForSubstrInStr(const std::string& str, const std::string& pat)
 {
     std::map<char, int> patFreq;
@@ -30,10 +31,10 @@ std::string ShortestWindowForSubstrInStr(const std::string& str, const std::stri
             }
             char leftc = str[start++];
             if (patFreq.count(leftc) > 0) {  // contains?
-                if (patFreq[leftc] == 0) {
+                // 之前那个字符都满足了，现在要去除它，就存在不满足了，match--
+                if (patFreq[leftc]++ == 0) {
                     match--; // we need remove one match due to this leftc
                 }
-                patFreq[leftc]++;
             }
         }
     }
