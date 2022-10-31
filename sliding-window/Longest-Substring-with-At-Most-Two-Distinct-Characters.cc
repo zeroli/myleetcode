@@ -4,6 +4,7 @@
 #include <map>
 #include <cmath>
 
+// 这题目与sliding-window\max-fruits-count-2-types.cc类似，那么K=2
 int longestSubstrNoMoreK(const std::string& str, int k)
 {
     int len = 0;

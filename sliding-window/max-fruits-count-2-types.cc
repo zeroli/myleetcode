@@ -2,6 +2,7 @@
 
 // 小于等于2种类型的最大窗口长度
 // 窗口内不同字符个数最多2种, at most K (K=2)
+// 泛化版本：sliding-window\Longest-Substring-with-At-Most-Two-Distinct-Characters.cc
 int MaxFruitsCount2Types(const std::string& fruits)
 {
     std::map<char, int> fruitFreqs;
