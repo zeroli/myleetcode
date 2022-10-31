@@ -5,6 +5,7 @@
 #include <cmath>
 
 // 这题目与sliding-window\max-fruits-count-2-types.cc类似，那么K=2
+// 泛化版本：sliding-window\Longest Substring with At Most K Distinct Characters.cc
 int longestSubstrNoMoreK(const std::string& str, int k)
 {
     int len = 0;
