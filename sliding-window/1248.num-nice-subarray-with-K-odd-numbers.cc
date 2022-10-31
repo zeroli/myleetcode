@@ -74,6 +74,23 @@ int NumOfNiceSubArr(const std::vector<int>& arr, int k)
         if (arr[i] & 1) {
             match++;
         }
+        #if 1  // 改写为于992题目一样的代码样式
+        if (match > k) {
+            while ((arr[beg] & 1) == 0) {  // 偶数，安全删除
+                beg++;
+            }
+            beg++;  // 再去除左边界，奇数
+            match--;
+            prefix = 0;
+        }
+        if (match == k) {
+            while ((arr[beg] & 1) == 0) {  // 偶数，安全删除
+                beg++;
+                prefix++;
+            }
+            res += 1 + prefix;
+        }
+        #else
         if (match > k) {
             if (arr[beg] & 1) {
                 match--;
@@ -88,6 +105,7 @@ int NumOfNiceSubArr(const std::vector<int>& arr, int k)
         if (match == k) {
             res += 1 + prefix;
         }
+        #endif
     }
     return res;
 }
