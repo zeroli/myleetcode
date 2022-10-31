@@ -55,13 +55,12 @@ std::string MinWindowSubstr(const std::string& str1, const std::string& str2)
                 ret = str1.substr(start, minLen);
             }
             // 去除最左边的字符，会重新要求字符匹配么，还是剩余窗口里面有多余的？
-            int t = str1[start];
+            int t = str1[start++];
             if (needs.count(t) > 0) {
                 if (++needs[t] > 0) {
                     match--;
                 }
             }
-            start++;
         }
     }
     return ret;

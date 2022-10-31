@@ -20,13 +20,12 @@ bool PermutationInStr(const std::string& str, const std::string& pat)
             if (match == patFreq.size()) {
                 return true;
             }
-            char leftc = str[start];
+            char leftc = str[start++];
             if (patFreq.count(leftc) > 0) {
-                if (++patFreq[leftc] > 0) {
+                if (patFreq[leftc]++ == 0) {
                     match--;
                 }
             }
-            start++;
         }
     }
     return false;
