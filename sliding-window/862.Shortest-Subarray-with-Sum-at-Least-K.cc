@@ -1,9 +1,9 @@
 /*
-Given an integer array nums and an integer k, return the length of the shortest non-empty subarray of nums with a sum of at least k. If there is no such subarray, return -1.
+Given an integer array nums and an integer k,
+return the length of the shortest non-empty subarray of nums with a sum of at least k.
+If there is no such subarray, return -1.
 
 A subarray is a contiguous part of an array.
-
-
 
 Example 1:
 
@@ -19,8 +19,6 @@ Example 3:
 
 Input: nums = [2,-1,2], k = 3
 Output: 3
-
-
 
 Constraints:
 

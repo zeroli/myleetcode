@@ -7,8 +7,6 @@ A good array is an array where the number of different integers in that array is
 
 A subarray is a contiguous part of an array.
 
-
-
 Example 1:
 
 Input: nums = [1,2,1,2,3], k = 2
@@ -21,8 +19,6 @@ Input: nums = [1,2,1,3,4], k = 3
 Output: 3
 Explanation: Subarrays formed with exactly 3 different integers: [1,2,1,3], [2,1,3], [1,3,4].
 
-
-
 Constraints:
 
     1 <= nums.length <= 2 * 104
@@ -31,6 +27,11 @@ Constraints:
 
 #include "utils.h"
 
+// 这题目于930的解法类似，注意prefix区域，需要被考虑在下面情况1中：
+// 1: (......对窗口属性不影响...)(windows满足区域)(......对窗口属性也不影响.....)
+//    ===> prefix区域长度，需要保留到suffix区域遍历完成
+// 2: (......对窗口属性不影响...)(windows满足区域)(开始对窗口属性有影响)
+//    ===> 碰到对窗口属性有影响了，收缩窗口左边，同时重置prefix=0
 int NumOfSubarr(const std::vector<int>& arr, int k)
 {
     // [j, i]  => [j + prefix, i] (has unique k, cannot shrink any more)
