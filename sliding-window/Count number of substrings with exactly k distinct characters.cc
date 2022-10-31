@@ -24,6 +24,7 @@ Possible substrings are {"a", "a", "aa"}
 // 从而重新达到k个不同字符的窗口
 
 //  这个题目与992.Subarrays-with-K-Different-Integers，一样的思路。
+// sliding-window\992.Subarrays-with-K-Different-Integers.cc
 int CountSubstr(const std::string& str, int k)
 {
     int start = 0;
@@ -33,6 +34,36 @@ int CountSubstr(const std::string& str, int k)
     for (int i = 0; i < str.size(); i++) {
         freqs[str[i]]++;
 
+#if 1  // 采用跟题目992的一样的代码样式
+        // 遇到一个使窗口不平衡的字符了
+        // 收缩窗口左边，重置prefix=0
+        if (freqs.size() > k) {
+            // prefix区域对于窗口属性不影响，收缩
+            while (freqs[str[start]] > 1) {
+                if (--freqs[str[start]] == 0) {
+                    freqs.erase(str[start]);
+                }
+                start++;
+            }
+            // 找到左边界，继续收缩，使窗口平衡
+            if (--freqs[str[start]] == 0) {
+                freqs.erase(str[start]);
+            }
+            start++;
+            prefix = 0;
+        }
+
+        if (freqs.size() == k) {
+            while (freqs[str[start]] > 1) {
+                if (--freqs[str[start]] == 0) {
+                    freqs.erase(str[start]);
+                }
+                start++;
+                prefix++;
+            }
+            cnt += prefix + 1;
+        }
+#else
         //   窗口不同字符个数>k了，
         // 看下收缩窗口左边是否还可以达到不同字符个数为k
         if (freqs.size() > k) {
@@ -54,6 +85,7 @@ int CountSubstr(const std::string& str, int k)
         if (freqs.size() == k) {
             cnt += 1 + prefix;
         }
+#endif
     }
     return cnt;
 }
