@@ -28,6 +28,8 @@ int LongestSubarrayAbsDiffSmallerThan(const std::vector<int>& arr, int k)
     int beg = 0;
     int maxLen = 0;
 
+    // 只要满足窗口内最大和最小值差值<=k
+    // 那么求滑动窗口内的最大值和最小值，可以直接利用单调队列数据结构
     MonotonicQueue<int, std::less<int>> maxqueue;
     MonotonicQueue<int, std::greater<int>> minqueue;
     for (int end = 0; end < arr.size(); end++) {

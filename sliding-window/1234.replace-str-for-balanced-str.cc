@@ -5,9 +5,8 @@ You are given a string s of length n containing only four kinds of characters: '
 
 A string is said to be balanced if each of its characters appears n / 4 times where n is the length of the string.
 
-Return the minimum length of the substring that can be replaced with any other string of the same length to make s balanced. If s is already balanced, return 0.
-
-
+Return the minimum length of the substring that can be replaced with any other string of the same length to make s balanced.
+ If s is already balanced, return 0.
 
 Example 1:
 
@@ -26,8 +25,6 @@ Example 3:
 Input: s = "QQQW"
 Output: 2
 Explanation: We can replace the first "QQ" to "ER".
-
-
 
 Constraints:
 
