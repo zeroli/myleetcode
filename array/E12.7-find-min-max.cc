@@ -28,8 +28,10 @@ std::pair<int, int> FindMinMax(const std::vector<int>& arr)
             }
         }
     }
-    min = std::min(arr.back(), min);
-    max = std::max(arr.back(), max);
+    if (n & 0x1) {
+        min = std::min(arr.back(), min);
+        max = std::max(arr.back(), max);
+    }
     return { min, max };
 }
 
