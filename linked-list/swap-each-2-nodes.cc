@@ -43,6 +43,28 @@ Node* SwapEach2Nodes1(Node* head)
     return dummy.next;
 }
 
+Node* SwapEach2Nodes2(Node* head)
+{
+    Node dummy;
+    dummy.next = head;
+    Node* prev = &dummy;
+    Node* cur = head;
+    while (cur && cur->next) {
+        // 0: * -> (1) -> 2 -> 3 -> 4
+        // 1: * -> 2 -> (1) -> 3 -> 4
+        //   1a: * -> 2 -> 1* -> (3) -> 4
+        // 2: * -> 2 -> 1 -> 4 -> 3
+        Node* next = cur->next;
+        cur->next = next->next;
+        next->next = cur;
+        prev->next = next;
+        // 更新，准备下两个节点
+        prev = cur;
+        cur = cur->next;
+    }
+    return dummy.next;
+}
+
 int main()
 {
     {
@@ -58,6 +80,13 @@ int main()
         DestroyList(list);
     }
     {
+        Node* list = BuildList("1,2,3,4,5,6");
+        std::cout << "input list: " << list << "\n";
+        std::cout << SwapEach2Nodes2(list) << "\n";
+        DestroyList(list);
+    }
+
+    {
         Node* list = BuildList("1,2,3,4,5");
         std::cout << "input list: " << list << "\n";
         std::cout << SwapEach2Nodes(list) << "\n";
@@ -69,6 +98,13 @@ int main()
         std::cout << SwapEach2Nodes1(list) << "\n";
         DestroyList(list);
     }
+    {
+        Node* list = BuildList("1,2,3,4,5");
+        std::cout << "input list: " << list << "\n";
+        std::cout << SwapEach2Nodes2(list) << "\n";
+        DestroyList(list);
+    }
+
     {
         Node* list = BuildList("");
         std::cout << "input list: " << list << "\n";
@@ -82,6 +118,13 @@ int main()
         DestroyList(list);
     }
     {
+        Node* list = BuildList("");
+        std::cout << "input list: " << list << "\n";
+        std::cout << SwapEach2Nodes2(list) << "\n";
+        DestroyList(list);
+    }
+
+    {
         Node* list = BuildList("1");
         std::cout << "input list: " << list << "\n";
         std::cout << SwapEach2Nodes(list) << "\n";
@@ -91,6 +134,12 @@ int main()
         Node* list = BuildList("1");
         std::cout << "input list: " << list << "\n";
         std::cout << SwapEach2Nodes1(list) << "\n";
+        DestroyList(list);
+    }
+    {
+        Node* list = BuildList("1");
+        std::cout << "input list: " << list << "\n";
+        std::cout << SwapEach2Nodes2(list) << "\n";
         DestroyList(list);
     }
 }
